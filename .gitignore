@@ -1,0 +1,18 @@
+# Data files
+*.csv
+*.npy
+*.h5
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# System files
+.DS_Store
+
+# Local folders
+DATASET/
+cache/

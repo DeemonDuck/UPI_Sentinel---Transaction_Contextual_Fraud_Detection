@@ -1,0 +1,1 @@
+{"sequence_length": 5, "threshold": 0.99532, "model_type": "CRNN + BiLSTM + Attention", "uses_scaler": true, "uses_smote": true, "uses_class_weights": true}

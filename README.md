@@ -1,259 +1,349 @@
-# UPI Sentinel  
-### Deep Learning-Based Fraud Detection in Digital Payment Systems  
-
-UPI Sentinel is a deep learning framework designed to detect fraudulent financial transactions in highly imbalanced digital payment environments.  
-
-The system combines sequence modeling, convolutional feature extraction, recurrent learning, and attention mechanisms to capture complex behavioral patterns in transaction streams.
+# 🚨 UPI Sentinel — Contextual Fraud Detection using Deep Learning
 
 ---
 
-## 📌 Problem Context
+# 📌 Overview
 
-Digital payment platforms process millions of transactions daily. Fraudulent transactions typically account for less than 0.2% of total volume, making detection extremely challenging due to:
+UPI Sentinel is a sequence-based fraud detection system designed to analyze contextual transaction behavior instead of evaluating transactions independently.
 
-- Severe class imbalance  
-- High false-negative cost  
-- Temporal dependency between transactions  
-- Risk of data leakage in naive modeling  
+Traditional fraud systems often rely on isolated transaction analysis, making them less effective against contextual financial fraud patterns.
 
-This project focuses on building a robust, leakage-aware deep learning pipeline capable of identifying fraud while maintaining strong precision-recall balance.
+This project combines:
+
+* CNN for local transaction pattern extraction
+* BiLSTM for temporal behavioral understanding
+* Attention mechanism for identifying important transaction steps
+* FastAPI deployment for real-time inference
+* Streamlit dashboard for live fraud monitoring
+
+The system was trained and evaluated using multiple experimentation strategies on highly imbalanced financial transaction data.
 
 ---
 
-## 🧠 System Architecture
+# 🎥 Dashboard Demonstration
 
-The final model follows a hybrid CRNN structure:
+## Live Fraud Monitoring Dashboard
 
-Conv1D → Bidirectional LSTM → Attention Layer → Dense Layers → Sigmoid Output  
+> Replace with your dashboard GIF or screenshot
+
+![Dashboard Demo](assets/dashboard_demo.gif)
+
+The dashboard demonstrates:
+
+* Real-time transaction scoring
+* Sliding-window sequence inference
+* Fraud probability estimation
+* Contextual risk analysis
+* Live transaction history tracking
+
+---
+
+# 🧠 Problem Statement
+
+Most fraud detection systems evaluate transactions independently.
+
+However, real-world fraud often emerges through:
+
+* Rapid account draining
+* Sequential suspicious transfers
+* Behavioral anomalies over time
+* Abnormal spending progression
+
+UPI Sentinel addresses this by analyzing transaction sequences using deep learning.
+
+Instead of asking:
+
+> “Is this transaction fraudulent?”
+
+The system asks:
+
+> “Does the recent behavioral sequence appear suspicious?”
+
+---
+
+# 🔍 Contextual Fraud Detection Example
+
+## Sequence-Based Risk Escalation
+
+> Replace with your contextual fraud visualization image
+
+![Contextual Fraud Flow](assets/contextual_fraud_story.png)
+
+### Example Scenario
+
+A victim account starts with ₹5000 balance.
+
+The following rapid transactions occur:
+
+| Step | Transaction    | Balance Remaining |
+| ---- | -------------- | ----------------- |
+| 1    | ₹2000 TRANSFER | ₹3000             |
+| 2    | ₹1500 TRANSFER | ₹1500             |
+| 3    | ₹1200 TRANSFER | ₹300              |
+| 4    | ₹250 TRANSFER  | ₹50               |
+| 5    | ₹10 PAYMENT    | ₹40               |
+
+Although the final ₹10 payment appears normal individually, the system flags it because the previous transaction sequence indicates suspicious account-draining behavior.
+
+This demonstrates contextual sequence-based fraud detection.
+
+---
+
+# 🏗️ Model Architecture
+
+## CNN → BiLSTM → Attention
+
+> Replace with your architecture diagram
+
+![Architecture](assets/model_architecture.png)
+
+### Architecture Flow
+
+```text
+Input Sequence
+        ↓
+Conv1D
+        ↓
+Dropout
+        ↓
+Bidirectional LSTM
+        ↓
+Attention Layer
+        ↓
+Dense Layers
+        ↓
+Fraud Probability Output
+```
 
 ### Why this architecture?
 
-- **Conv1D** captures short-term feature interactions  
-- **BiLSTM** models sequential temporal dependencies  
-- **Attention** learns which transaction windows are most informative  
-- **Threshold tuning** optimizes real-world precision/recall trade-off  
+### 🔹 CNN Layer
+
+Extracts local transaction patterns such as:
+
+* Sudden spending spikes
+* Rapid repetitive transfers
+* Abrupt balance changes
+
+### 🔹 BiLSTM Layer
+
+Learns temporal behavioral relationships across transaction history.
+
+### 🔹 Attention Layer
+
+Focuses on the most important transaction steps contributing to fraud probability.
 
 ---
 
-## 📊 Dataset
+# 📊 Experimental Results
 
-- PaySim synthetic financial transaction dataset  
-- ~6.3 million transactions  
-- Fraud rate ≈ 0.1%  
-- Global sliding-window sequence modeling applied  
+## Final Model Performance
 
-To avoid deterministic behavior and label leakage (in final model):
-- Direct leakage-inducing features were excluded  
-- Global temporal ordering was enforced  
-- SMOTE was applied only to training data  
+> Replace with your final metrics graph
+
+![Final Results](assets/final_results_graph.png)
+---
+
+## Final Evaluation Metrics
+
+| Metric    | Score  |
+| --------- | ------ |
+| Accuracy  | 1.00   |
+| Precision | 0.91   |
+| Recall    | 0.77   |
+| F1 Score  | 0.83   |
+| ROC-AUC   | 0.99   |
+| PR-AUC    | 0.8798 |
 
 ---
 
-## ⚙️ Techniques Implemented
+## Experiment Comparison
 
-- Sliding Window Sequence Generation  
-- SMOTE Oversampling (Training Set Only)  
-- Class Weighting (Experimental Phase)  
-- Precision-Recall Curve Analysis  
-- ROC-AUC & PR-AUC Evaluation  
-- Threshold Optimization (F1 & Target Precision)  
-- Early Stopping for Generalization  
+| Experiment                 | Precision | Recall | F1 Score |
+| -------------------------- | --------- | ------ | -------- |
+| CNN + Random Undersampling | 0.13      | 0.94   | 0.23     |
+| CNN + Class Weights        | 0.42      | 0.90   | 0.57     |
+| CNN + BiLSTM + Attention   | 0.91      | 0.77   | 0.83     |
 
 ---
 
-## 📈 Final Performance (Best Threshold Tuning)
+# ⚙️ Sequence Modeling Strategy
 
-| Metric      | Score |
-|------------|-------|
-| Precision  | 0.88–0.93 |
-| Recall     | 0.73–0.79 |
-| F1 Score   | ~0.83–0.85 |
-| ROC-AUC    | ~0.99 |
-| PR-AUC     | ~0.87–0.88 |
+The system uses a sliding-window transaction sequence approach.
 
-*Performance evaluated on fully imbalanced real-world test distribution.*
+### Example
 
----
+With sequence length = 5:
 
-## 📂 Repository Structure
-Notebooks/
-  ├── 01_cnn_random_undersampling
-  ├── 02_cnn_class_weights
-  ├── 03_hybrid_cnn_bilstm_attention.ipynb
+```text
+[T1, T2, T3, T4, T5] → Prediction
+[T2, T3, T4, T5, T6] → Prediction
+[T3, T4, T5, T6, T7] → Prediction
+```
+
+This enables contextual behavioral analysis over time.
 
 ---
 
-## 🧠 Modeling Strategy Overview
+# 🧪 Experiments Conducted
 
-The project progresses through three experimental stages:
+## ✔ Random Undersampling
 
-1. **Baseline CNN with Random Undersampling**  
-2. **CNN with Cost-Sensitive Learning (Class Weights)**  
-3. **Hybrid CNN + BiLSTM + Attention with SMOTE and Threshold Optimization**
+Reduced majority-class dominance.
 
-Each stage addresses specific limitations discovered in earlier experiments, leading to a progressively more generalizable fraud detection framework.
+## ✔ SMOTE
 
----
+Synthetic minority oversampling.
 
-## 📂 Experimental Progression
-### 1️⃣ Baseline CNN with Random Undersampling  
-`01_baseline_cnn_random_undersampling.ipynb`
+## ✔ Class Weight Experiments
 
-**EDA Findings**
-- Fraud concentrated in `TRANSFER` and `CASH_OUT`
-- Account wipe-out behavior strongly correlated with fraud
-- Amount matching full balance is a strong fraud indicator
+Tested multiple class weight combinations:
 
-**Preprocessing and Imbalance Handling**
-- Filtered to relevant transaction types
-- Engineered behavioral fraud features
-- Stratified train-test split
-- Random undersampling on training set
+* Weight 5
+* Weight 7
+* Weight 10
 
-**Architecture**
-Conv1D(32) → Flatten → Dense(100) → Dropout → Sigmoid  
-Total parameters: 3,625
+## ✔ Sliding Window Variations
 
-**Results**
-- Accuracy: 65%
-- Recall (Fraud): 82%
-- Precision (Fraud): 1%
-- Extremely high false positives
+Evaluated multiple sequence lengths:
 
-**Insight**
-Model achieved high recall but was impractical due to severe precision collapse.
+* Sequence Length = 5
+* Sequence Length = 10
 
-### 2️⃣ CNN with Cost-Sensitive Learning  
-`02_cnn_class_weight_balancing.ipynb`
+## ✔ Threshold Optimization
 
-**Objective**
+Experimented with:
 
-Address extreme class imbalance using cost-sensitive learning instead of undersampling.
-
-**Preprocessing Enhancements**
-
-- Applied `StandardScaler` (fitted on training data only)
-- Retained engineered behavioral fraud indicators
-- Used stratified train-test split
-
-**Imbalance Handling**
-
-Class weights were computed and applied during training to penalize fraud misclassification without altering the original data distribution.
-
-**Architecture**
-
-Conv1D(32) → Flatten → Dense(100) → Dropout → Sigmoid  
-Total parameters: 3,625  
-
-(Same architecture as the baseline model)
-
-**Results**
-
-- Near-perfect accuracy
-- Extremely high fraud precision and recall
-
-**Performance Discussion**
-
-Although the model achieved near-perfect metrics, this was not the intended outcome of building a generalized fraud detection system.  
-
-The strong performance suggests that engineered features such as `account_emptied` and `amount_matches_balance` almost deterministically separate fraud from non-fraud in the PaySim dataset.  
-
-While effective on this synthetic data, such deterministic behavior may not generalize to real-world fraud scenarios where patterns are more dynamic and less explicit. This reinforced the importance of realistic validation and motivated architectural refinement in the final model.
-
-### 3️⃣ Hybrid CNN + BiLSTM + Attention with SMOTE  
-`03_final_crnn_attention_smote.ipynb`
-
-**Design Changes**
-
-In previous experiments, certain engineered features almost deterministically separated fraud from non-fraud in the PaySim dataset.  
-
-To encourage genuine pattern learning and improve generalizability, these rule-based features were intentionally removed.  
-
-This version forces the model to learn fraud patterns from transactional dynamics rather than relying on near-explicit signals.
-
-**Preprocessing**
-
-- Restricted to core transactional and balance-related features
-- Encoded transaction type numerically
-- Standardized numerical features
-- Intentionally removed engineered rule-like indicators (`account_emptied`, `amount_matches_balance`) to prevent deterministic learning
-
-
-**Sequence Modeling**
-
-- Transactions globally sorted by `step`
-- Sliding window (length = 5) used to create overlapping sequences
-- Each sequence labeled by the fraud status of the final transaction
-- Dataset transformed to 3D format: `(samples, timesteps, features)`
-
-
-**Imbalance Handling**
-
-- Train-test split (80–20) with stratification
-- SMOTE applied **only on training set**
-- Balanced training data via synthetic minority oversampling
-- Large dataset reduced using a stratified 100k subset for efficient training
-
-
-**Architecture**
-
-Conv1D(64) → Dropout  
-→ Bidirectional LSTM (return_sequences=True)  
-→ Custom Attention Layer  
-→ Dense(64) → Dropout → Sigmoid  
-
-~91,841 trainable parameters  
-
-
-**Initial Evaluation (Default Threshold 0.5)**
-
-- Accuracy: 99.2%
-- Fraud Recall: 94%
-- Fraud Precision: 13%
-- High recall but significant false positives
-
-
-**Threshold Optimization**
-
-Using Precision–Recall analysis:
-
-- Best F1 Score: 0.83  
-- Optimal Threshold: ~0.998  
-
-**Performance @ Best Threshold**
-
-- Precision: 0.91  
-- Recall: 0.76  
-- F1 Score: 0.83  
-- Strong precision–recall balance on imbalanced test set  
-
-
-**Key Insight**
-
-Sequence modeling combined with attention and threshold tuning significantly improved practical deployability by balancing precision and recall.
+* Best F1 threshold
+* High-recall operating threshold
 
 ---
 
-## 🎯 Key Contributions
+# 🚀 Deployment
 
-- Prevented feature leakage and deterministic shortcuts  
-- Demonstrated impact of threshold tuning in fraud detection  
-- Compared undersampling, class weights, and SMOTE  
-- Built interpretable sequence-based fraud detection pipeline  
+## FastAPI Backend
+
+The project exposes a real-time fraud detection API using FastAPI.
+
+### Features
+
+* Sequence-aware inference
+* User-specific transaction buffers
+* Sliding-window contextual analysis
+* Fraud probability generation
+
+### Run FastAPI
+
+```bash
+uvicorn run:app --reload
+```
+
+API Docs:
+
+```text
+http://127.0.0.1:8000/docs
+```
 
 ---
 
-## 🚀 Future Improvements
+## Streamlit Dashboard
 
-- User-centric behavioral modeling  
-- Graph-based fraud modeling  
-- Real-time inference optimization  
-- Explainability via attention weight visualization  
+Interactive fraud monitoring dashboard with:
+
+* Live transaction inputs
+* Fraud probability visualization
+* Risk monitoring
+* Sequence-history tracking
+
+### Run Dashboard
+
+```bash
+streamlit run app.py
+```
+
+Dashboard URL:
+
+```text
+http://localhost:8501
+```
 
 ---
 
-## 👨‍💻 Author
+# 📂 Project Structure
 
-Ridham Taneja  
-B.Tech – Computer Science (AI & ML)  
-Focused on Machine Learning, Deep Learning, and Fraud Detection Systems
+```text
+UPI_Sentinel/
+│
+├── src/
+│   ├── api.py
+│   ├── inference.py
+│   ├── preprocessing.py
+│   ├── sequence_builder.py
+│   ├── model_loader.py
+│
+├── artifacts/
+│   ├── best_model.keras
+│   ├── scaler.pkl
+│   ├── label_encoder.pkl
+│   ├── metadata.json
+│
+├── app.py
+├── run.py
+├── requirements.txt
+│
+├── assets/
+│
+└── README.md
+```
+
+---
+
+# 🛠️ Tech Stack
+
+| Category        | Technologies                |
+| --------------- | --------------------------- |
+| Language        | Python                      |
+| Deep Learning   | TensorFlow / Keras          |
+| Backend API     | FastAPI                     |
+| Dashboard       | Streamlit                   |
+| Data Processing | Pandas, NumPy, Scikit-learn |
+| Visualization   | Matplotlib                  |
+| Deployment      | Uvicorn                     |
+
+---
+
+# 🔐 Key Learnings
+
+This project highlights several real-world machine learning challenges:
+
+* Extreme class imbalance
+* Precision vs Recall tradeoffs
+* Threshold optimization
+* Contextual sequence modeling
+* Deployment consistency
+* Real-time inference engineering
+* Sliding-window behavioral analysis
+
+---
+
+# 👨‍💻 Author
+
+Ridham Taneja
+
+AI/ML Engineer • Deep Learning Enthusiast • Python Developer
+
+---
+
+# ⭐ Final Note
+
+UPI Sentinel demonstrates how contextual sequence modeling can improve fraud detection beyond isolated transaction analysis.
+
+The project combines:
+
+* Deep learning experimentation
+* Real-time deployment
+* Sequential behavioral analysis
+* Interactive visualization
+* Practical inference engineering
+
+into a complete end-to-end AI system.

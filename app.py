@@ -38,39 +38,58 @@ if st.sidebar.button("🚀 Predict Transaction"):
     }
 
     try:
-        response = requests.post("http://127.0.0.1:8000/predict", json=payload)
+        response = requests.post(
+            "http://127.0.0.1:8000/predict",
+            json=payload
+        )
+
         result = response.json()
 
+        # -----------------------------
+        # SAVE EVERY TRANSACTION
+        # -----------------------------
+        st.session_state.history.append({
+            "User": user_id,
+            "Amount": amount,
+            "Probability": result.get("fraud_probability", "Waiting"),
+            "Risk": result.get("risk_level", "Collecting History")
+        })
+
+        # -----------------------------
+        # SHOW PREDICTION
+        # -----------------------------
         if "fraud_probability" in result:
+
             prob = result["fraud_probability"]
             risk = result["risk_level"]
 
-            # Save to history
-            st.session_state.history.append({
-                "User": user_id,
-                "Amount": amount,
-                "Probability": prob,
-                "Risk": risk
-            })
-
             # LEFT PANEL → Result
             with col1:
+
                 st.subheader("📊 Risk Analysis")
 
-                st.metric("Fraud Probability", f"{prob:.2%}")
+                st.metric(
+                    "Fraud Probability",
+                    f"{prob:.2%}"
+                )
 
                 if risk == "FRAUD":
                     st.error("🚨 FRAUD DETECTED")
+
                 elif risk == "SUSPICIOUS":
                     st.warning("⚠️ SUSPICIOUS")
+
                 else:
                     st.success("✅ SAFE")
 
-                # Progress bar (risk meter)
-                st.progress(min(int(prob * 100), 100))
+                # Progress bar
+                st.progress(
+                    min(int(prob * 100), 100)
+                )
 
             # RIGHT PANEL → Visualization
             with col2:
+
                 st.subheader("📈 Risk Visualization")
 
                 chart_data = pd.DataFrame({
@@ -78,7 +97,9 @@ if st.sidebar.button("🚀 Predict Transaction"):
                     "Value": [prob, 1 - prob]
                 })
 
-                st.bar_chart(chart_data.set_index("Metric"))
+                st.bar_chart(
+                    chart_data.set_index("Metric")
+                )
 
         else:
             st.info(result["message"])
@@ -86,11 +107,21 @@ if st.sidebar.button("🚀 Predict Transaction"):
     except Exception as e:
         st.error(f"Error connecting to API: {e}")
 
-# History Table
+# -----------------------------
+# HISTORY TABLE
+# -----------------------------
 st.subheader("📜 Transaction History")
 
 if st.session_state.history:
-    df = pd.DataFrame(st.session_state.history[::-1])
-    st.dataframe(df, use_container_width=True)
+
+    df = pd.DataFrame(
+        st.session_state.history[::-1]
+    )
+
+    st.dataframe(
+        df,
+        use_container_width=True
+    )
+
 else:
     st.info("No transactions yet")

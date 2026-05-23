@@ -24,8 +24,6 @@ The system was trained and evaluated using multiple experimentation strategies o
 
 ## Live Fraud Monitoring Dashboard
 
-> Replace with your dashboard GIF or screenshot
-
 ![Dashboard Demo](assets/dashboard_demo.gif)
 
 The dashboard demonstrates:
@@ -65,8 +63,6 @@ The system asks:
 
 ## Sequence-Based Risk Escalation
 
-> Replace with your contextual fraud visualization image
-
 ![Contextual Fraud Flow](assets/contextual_fraud_story.png)
 
 ### Example Scenario
@@ -92,8 +88,6 @@ This demonstrates contextual sequence-based fraud detection.
 # 🏗️ Model Architecture
 
 ## CNN → BiLSTM → Attention
-
-> Replace with your architecture diagram
 
 ![Architecture](assets/model_architecture.png)
 
@@ -138,8 +132,6 @@ Focuses on the most important transaction steps contributing to fraud probabilit
 # 📊 Experimental Results
 
 ## Final Model Performance
-
-> Replace with your final metrics graph
 
 ![Final Results](assets/final_results_graph.png)
 ---

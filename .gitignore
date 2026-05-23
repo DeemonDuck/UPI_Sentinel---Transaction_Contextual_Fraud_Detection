@@ -16,3 +16,4 @@ __pycache__/
 # Local folders
 DATASET/
 cache/
+public_release/

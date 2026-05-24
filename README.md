@@ -1,5 +1,12 @@
 # 🚨 UPI Sentinel — Contextual Fraud Detection using Deep Learning
 
+![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
+![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange?logo=tensorflow)
+![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi)
+![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red?logo=streamlit)
+![Deep Learning](https://img.shields.io/badge/DeepLearning-CNN%20%2B%20BiLSTM%20%2B%20Attention-purple)
+![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+
 ---
 
 # 📌 Overview

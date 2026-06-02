@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+
+.git/
+.gitignore
+
+notebooks/
+DATASET/
+
+public_release/
+
+assets/dashboard_demo_video.mp4
+
+.vscode/
+.idea/

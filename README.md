@@ -1,3 +1,12 @@
+---
+title: UPI Sentinel
+emoji: 🚨
+colorFrom: blue
+colorTo: purple
+sdk: docker
+pinned: false
+---
+
 # 🚨 UPI Sentinel — Contextual Fraud Detection using Deep Learning
 
 ![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)

@@ -9,12 +9,30 @@ pinned: false
 
 # 🚨 UPI Sentinel — Contextual Fraud Detection using Deep Learning
 
+[![Live Demo](https://img.shields.io/badge/🚀%20Live%20Demo-Try%20Now-yellow?logo=huggingface)](https://deemonduck-upi-sentinel.hf.space)
+[![Hugging Face Space](https://img.shields.io/badge/🤗%20Space-Repository-orange?logo=huggingface)](https://huggingface.co/spaces/DeemonDuck/upi-sentinel)
 ![Python](https://img.shields.io/badge/Python-3.10-blue?logo=python)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.x-orange?logo=tensorflow)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green?logo=fastapi)
 ![Streamlit](https://img.shields.io/badge/Streamlit-Dashboard-red?logo=streamlit)
 ![Deep Learning](https://img.shields.io/badge/DeepLearning-CNN%20%2B%20BiLSTM%20%2B%20Attention-purple)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
+
+---
+
+# 🤖 Live Demo
+
+Try UPI Sentinel Live:
+https://deemonduck-upi-sentinel.hf.space
+
+The application is publicly deployed on Hugging Face Spaces and can be tested directly from the browser without any local setup.
+
+Features Available in the Demo
+
+* Real-time fraud prediction
+* Sequence-aware transaction analysis
+* Interactive Streamlit dashboard
+* FastAPI-powered inference pipeline
 
 ---
 
